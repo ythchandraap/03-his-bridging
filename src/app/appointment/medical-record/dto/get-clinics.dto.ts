@@ -33,32 +33,32 @@ export const GetClinics = async (headers: any, connection: any) => {
 
   let pagePosition: number;
 
-  let where = 'WHERE cc.company_profile_id = ' + decryptedMedicalFacility + ' ';
+  let where = 'WHERE cu.company_profile_id = ' + decryptedMedicalFacility + ' ';
   let where_all =
-    'WHERE cc.company_profile_id = ' + decryptedMedicalFacility + ' ';
+    'WHERE cu.company_profile_id = ' + decryptedMedicalFacility + ' ';
 
   if (clinic_name && typeof clinic_name == 'string') {
-    where = where + ` AND company_clinic_name like '%${clinic_name}%'`;
-    where_all = where_all + ` AND company_clinic_name like '%${clinic_name}%'`;
+    where = where + ` AND company_unit_name like '%${clinic_name}%'`;
+    where_all = where_all + ` AND company_unit_name like '%${clinic_name}%'`;
   }
 
   if (!act || act != 'all') {
-    where = where + ` AND cc.is_active = 1`;
-    where_all = where_all + ` AND cc.is_active = 1`;
+    where = where + ` AND cu.is_active = 1`;
+    where_all = where_all + ` AND cu.is_active = 1`;
   }
 
   if (pageSize && typeof pageSize == 'number' && pageSize == 0) {
     ``;
-    where = where + ' order by company_clinic_name ASC';
+    where = where + ' order by company_unit_name ASC';
   } else {
-    where = where + ` order by company_clinic_name ASC limit ${pageSize}`;
+    where = where + ` order by company_unit_name ASC limit ${pageSize}`;
   }
 
   const getAllData = await connection.query(
     `
       SELECT
-        count(company_clinic_id) as totalData
-      FROM ${process.env.DATABASE_CORE}.company_clinics cc
+        count(company_unit_id) as totalData
+      FROM ${process.env.DATABASE_CORE}.company_units cu
       ${where_all}
       `,
   );
@@ -67,21 +67,19 @@ export const GetClinics = async (headers: any, connection: any) => {
     `
       SELECT
         *
-      FROM ${process.env.DATABASE_CORE}.company_clinics cc
+      FROM ${process.env.DATABASE_CORE}.company_units cu
       ${where}
       `,
   );
 
-  const encryptedId = getData?.[0]?.map(
-    (item: { company_clinic_id: string }) => {
-      const { company_clinic_id, ...rest } = item;
+  const encryptedId = getData?.[0]?.map((item: { company_unit_id: string }) => {
+    const { company_unit_id, ...rest } = item;
 
-      return {
-        company_clinic_id: encrypt(String(company_clinic_id)),
-        ...rest,
-      };
-    },
-  );
+    return {
+      company_unit_id: encrypt(String(company_unit_id)),
+      ...rest,
+    };
+  });
   // eslint-disable-next-line prefer-const
   pagePosition = parseInt(getAllData?.[0]?.[0]?.totalData) / pageSize;
 

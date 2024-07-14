@@ -1,14 +1,13 @@
 import {
   Controller,
-  // Post,
   HttpCode,
   HttpStatus,
   Headers,
-  Req,
-  // Res,
-  // Param,
   Get,
-  Query,
+  Post,
+  Param,
+  Delete,
+  Patch,
 } from '@nestjs/common';
 import { ClinicsServices } from './clinics.service';
 
@@ -18,12 +17,49 @@ export class ClinicsController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  async create(
-    @Query() params: any,
+  async get(
     @Headers() headers: any,
-    @Req() request: Request,
     // @Res({ passthrough: true }) response: Response,
   ) {
-    return await this.ClinicsService.getClinics(params, headers, request);
+    return await this.ClinicsService.getClinics(headers);
+  }
+
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  async getOne(
+    @Headers() headers: any,
+    @Param('id') id: string,
+    // @Res({ passthrough: true }) response: Response,
+  ) {
+    return await this.ClinicsService.getClinic(headers, id);
+  }
+
+  @Patch(':id')
+  @HttpCode(HttpStatus.OK)
+  async patchClinic(
+    @Headers() headers: any,
+    @Param('id') id: string,
+    // @Res({ passthrough: true }) response: Response,
+  ) {
+    return await this.ClinicsService.patchClinic(headers, id);
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.OK)
+  async switcher(
+    @Headers() headers: any,
+    @Param('id') id: string,
+    // @Res({ passthrough: true }) response: Response,
+  ) {
+    return await this.ClinicsService.switcherClinic(headers, id);
+  }
+
+  @Post()
+  @HttpCode(HttpStatus.OK)
+  async create(
+    @Headers() headers: any,
+    // @Res({ passthrough: true }) response: Response,
+  ) {
+    return await this.ClinicsService.addClinic(headers);
   }
 }

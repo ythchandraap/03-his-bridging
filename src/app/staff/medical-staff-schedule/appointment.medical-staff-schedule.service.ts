@@ -1,22 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { InjectClient } from 'nest-mysql';
 import { Pool } from 'mysql2';
-import { SearchMedicalStaffDto } from './dto/search-medical-staff.dto';
+import { GetMedicalStaffScheduleDto } from './dto/get-medical-staff-schedule.dto';
 
 @Injectable()
-export class MedicalStaffServices {
+export class AppointmentMedicalStaffScheduleServices {
   constructor(
     @InjectClient() private readonly connection: Pool,
     // @Inject('PG_CONNECTION')
     // private readonly connectionPg: any,
   ) {}
 
-  async searchMedicalStaff(param: any, headers: any, request: any) {
-    return await SearchMedicalStaffDto(
-      param,
-      headers,
-      request,
-      this.connection,
-    );
+  async getMedicalStaffSchedule(headers: any) {
+    return await GetMedicalStaffScheduleDto(headers, this.connection);
   }
 }

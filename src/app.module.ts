@@ -8,9 +8,8 @@ import { ConfigModule } from '@nestjs/config';
 import { DbModule } from './db/db.module';
 import { ListCheckUpModule } from './app/lab/list-check-up/list-check-up.module';
 import { AuthenticationModule } from './app/authentication/authentication.module';
-import { ClinicsModule } from './app/clinics/clinics.module';
 import { AppointmentModule } from './app/appointment/appointment.module';
-// import { AppointmentModule } from './app/appointment/appointment.module';
+import { ClinicsModule } from './app/clinics/clinics.module';
 
 @Module({
   imports: [
