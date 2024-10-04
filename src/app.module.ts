@@ -1,25 +1,26 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { RecipeModule } from './app/recipe/recipe.module';
 import { NotificationsGateway } from './socket.io/notifications/notifications.gateway';
 import { MysqlModule } from 'nest-mysql';
 import { ConfigModule } from '@nestjs/config';
 import { DbModule } from './db/db.module';
-import { ListCheckUpModule } from './app/lab/list-check-up/list-check-up.module';
-import { AuthenticationModule } from './app/authentication/authentication.module';
-import { AppointmentModule } from './app/appointment/appointment.module';
-import { ClinicsModule } from './app/clinics/clinics.module';
+import { V0Module } from './app/v0/v0.module';
+import { ProfileModule } from './app/profile/profile.module';
+import { TestModule } from './app/test/test.module';
+import { HISModule } from './app/his/his.module';
+import { ReportModule } from './app/report/report.module';
+import { MigrationModule } from './app/migration/migration.module';
+import { ActivityModule } from './app/activity/activity.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    RecipeModule,
-    AuthenticationModule,
-    ListCheckUpModule,
-    ClinicsModule,
-    AppointmentModule,
-    DbModule,
+    V0Module,
+    HISModule,
+    ReportModule,
+    MigrationModule,
+    ActivityModule,
     MysqlModule.forRootAsync({
       useFactory: () => ({
         host: process.env.DATABASE_HOST,
@@ -30,6 +31,8 @@ import { ClinicsModule } from './app/clinics/clinics.module';
       }),
     }),
     DbModule,
+    ProfileModule,
+    TestModule,
   ],
   controllers: [AppController],
   providers: [AppService, NotificationsGateway],

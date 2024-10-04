@@ -36,9 +36,9 @@ export class AuthenticationService {
 
     await this.connection.query('START TRANSACTION');
     const [[checkUsers]]: any = await this.connection.query(
-      `SELECT 
-        * 
-      FROM 
+      `SELECT
+        *
+      FROM
         ${process.env.DATABASE_CORE}.core_users cu
       WHERE
         cu.username = ?`,
@@ -70,9 +70,9 @@ export class AuthenticationService {
 
     await this.connection.query(
       `
-      UPDATE 
+      UPDATE
         ${process.env.DATABASE_CORE}.core_sessions_user csu
-      SET 
+      SET
         csu.session_active = 0
       WHERE
         csu.username = ?
@@ -82,7 +82,7 @@ export class AuthenticationService {
 
     const insertToSession = await this.connection.query(
       `
-      INSERT INTO 
+      INSERT INTO
         ${process.env.DATABASE_CORE}.core_sessions_user(
           core_user_id,
           username,

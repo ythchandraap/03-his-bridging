@@ -16,8 +16,12 @@ export function encryptor(text: string, salt: string): string {
 }
 
 export function decryptor(encryptedText: string, salt: string): string {
-  const decipher = createDecipheriv(algorithm, key, iv);
-  let decrypted = decipher.update(encryptedText, 'hex', 'utf8');
-  decrypted += decipher.final('utf8');
-  return String(decrypted).replace(salt, '');
+  try {
+    const decipher = createDecipheriv(algorithm, key, iv);
+    let decrypted = decipher.update(encryptedText, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    return String(decrypted).replace(salt, '');
+  } catch (error) {
+    return '500';
+  }
 }

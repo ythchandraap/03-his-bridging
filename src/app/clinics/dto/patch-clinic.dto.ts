@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { decryptor, encryptor } from 'utility/aes';
 import CheckCompanyProfile from 'utility/check-company-profile';
-import { cipher, decipher } from 'utility/encryption';
+import { decipher } from 'utility/encryption';
 
 export const PatchClinic = async (headers: any, id: any, connection: any) => {
   const decrypt = decipher(process.env.SALT);
