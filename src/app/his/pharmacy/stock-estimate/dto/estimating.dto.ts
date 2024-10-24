@@ -17,7 +17,7 @@ export const EstimatingDto = async (headers: any, connection: any) => {
       WHERE
         dt.date BETWEEN '2023-09-01'
         AND '2024-09-30'
-        AND dtd.drug_code = 'AML0002'
+        AND dtd.drug_code = 'ACA0001'
         AND dt.bagian_id = 2
         AND dt.jenis = 'Resep'
       GROUP BY
@@ -37,7 +37,7 @@ export const EstimatingDto = async (headers: any, connection: any) => {
         JOIN ${process.env.DATABASE_SIMRS}.drugs_transaction_detail dtd ON (dtd.drug_transaction_id = dt.id)
       WHERE
         dt.bagian_id = 2
-        AND dtd.drug_code = 'AML0002'
+        AND dtd.drug_code = 'ACA0001'
         AND DATE(dt.date) <= '2024-09-30'
       `,
   );

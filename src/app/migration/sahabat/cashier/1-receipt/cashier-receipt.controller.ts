@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { CashierReceiptServices } from './cashier-receipt.service';
 
-@Controller('apps-internal/migration/sahabat/cashier/receipt')
+@Controller('apps-internal/migration/sahabat/cashier/1-receipt')
 export class CashierReceiptController {
   constructor(private readonly CashierReceiptService: CashierReceiptServices) {}
 

@@ -15,13 +15,10 @@ export const SignIn = async (
   jwtService: any,
   connection: any,
 ) => {
-  if (
-    !headers ||
-    !body ||
-    !body?.username ||
-    !headers?.signature ||
-    headers?.action != 'post'
-  ) {
+  const { signature, action, ['user-agent']: userAgent } = headers;
+  const { username } = body;
+
+  if (!username || !signature || action != 'post') {
     throw new HttpException(
       "Your transaction can't processed",
       HttpStatus.UNPROCESSABLE_ENTITY,
@@ -29,8 +26,6 @@ export const SignIn = async (
   }
 
   // const saltRounds = 10;
-
-  const username = body?.username;
 
   const [[checkDataExist]] = await connection.query(
     `
@@ -85,10 +80,7 @@ export const SignIn = async (
       [checkDataExist?.username],
     );
   }
-  const match = await bcrypt.compare(
-    headers?.signature,
-    checkDataExist.password,
-  );
+  const match = await bcrypt.compare(signature, checkDataExist.password);
 
   if (!match) {
     throw new HttpException(
@@ -97,12 +89,13 @@ export const SignIn = async (
     );
   }
 
-  const signature: string = username + dayjs.valueOf();
-  const access_token: string =
-    headers?.['user-agent'] + username + dayjs.valueOf();
-  const sha256Signature = createHash('sha256').update(signature).digest('hex');
+  const signatured: string = username + dayjs.valueOf();
+  const access_token: string = userAgent + username + dayjs.valueOf();
+  const sha256Signature = createHash('sha256')
+    .update(dayjs().second() + signatured + dayjs().millisecond())
+    .digest('hex');
   const sha256AccessToken = createHash('sha256')
-    .update(access_token)
+    .update(dayjs().millisecond() + access_token + dayjs().second())
     .digest('hex');
 
   const payload = { token: sha256AccessToken };
@@ -111,17 +104,30 @@ export const SignIn = async (
   await connection.query(
     `
       INSERT INTO ${process.env.DATABASE_CORE}.core_sessions_user
-        (core_user_id, username, useragent, signature, access_token, session_active_expired, session_can_renew,created_at,updated_at)
+        (
+          core_user_id,
+          username,
+          useragent,
+          signature,
+          access_token,
+          session_active_expired,
+          session_active,
+          session_renew_expired,
+          session_can_renew,
+          created_at,
+          updated_at)
       VALUES
-        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `,
     [
       checkDataExist?.core_user_id,
       checkDataExist?.username,
-      headers?.['user-agent'],
+      userAgent,
       sha256Signature,
       token,
-      dayjs().add(45, 'minute').format('YYYY-MM-DD HH:mm'),
+      dayjs().add(120, 'minute').format('YYYY-MM-DD HH:mm'),
+      1,
+      dayjs().add(3, 'minute').format('YYYY-MM-DD HH:mm'),
       1,
       dayjs().format('YYYY-MM-DD HH:mm'),
       dayjs().format('YYYY-MM-DD HH:mm'),
