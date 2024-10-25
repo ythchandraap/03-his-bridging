@@ -6,7 +6,7 @@ export const GetMedicalRecord = async (headers: any, connection: any) => {
   const encrypt = cipher(process.env.SALT);
   const decrypt = decipher(process.env.SALT);
 
-  if (!headers || !headers.payload) {
+  if (!headers?.payload) {
     throw new HttpException(
       "Your transaction can't processed",
       HttpStatus.UNPROCESSABLE_ENTITY,
@@ -54,7 +54,6 @@ export const GetMedicalRecord = async (headers: any, connection: any) => {
   // }
 
   if (pageSize && typeof pageSize == 'number' && pageSize == 0) {
-    ``;
     where = where + ' order by rp.full_name ASC';
   } else {
     where = where + ` order by rp.full_name ASC limit ${pageSize}`;

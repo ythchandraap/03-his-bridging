@@ -6,7 +6,7 @@ export const GetStatusDto = async (headers: any, connection: any) => {
   const encrypt = cipher(process.env.SALT);
   const decrypt = decipher(process.env.SALT);
 
-  if (!headers || !headers.payload) {
+  if (!headers?.payload) {
     throw new HttpException(
       "Your transaction can't processed",
       HttpStatus.UNPROCESSABLE_ENTITY,
@@ -59,7 +59,6 @@ export const GetStatusDto = async (headers: any, connection: any) => {
   }
 
   if (pageSize && typeof pageSize == 'number' && pageSize == 0) {
-    ``;
     where = where + ' order by rs.order ASC';
   } else {
     where = where + ` order by rs.order ASC limit ${pageSize}`;

@@ -6,7 +6,7 @@ import { decipher } from 'utility/encryption';
 export const PatchClinic = async (headers: any, id: any, connection: any) => {
   const decrypt = decipher(process.env.SALT);
 
-  if (!headers || !headers.payload) {
+  if (!headers?.payload) {
     throw new HttpException(
       "Your transaction can't processed",
       HttpStatus.UNPROCESSABLE_ENTITY,

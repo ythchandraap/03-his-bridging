@@ -33,7 +33,7 @@ export const SeparateReceiptInOutpatient = async (
   // const encrypt = cipher(process.env.SALT);
   // const decrypt = decipher(process.env.SALT);
 
-  // if (!headers || !headers.payload) {
+  // if (!headers?.payload) {
   //   throw new HttpException(
   //     "Your transaction can't processed",
   //     HttpStatus.UNPROCESSABLE_ENTITY,

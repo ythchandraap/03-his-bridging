@@ -9,6 +9,12 @@ declare global {
       DATABASE_NAME: string;
       DATABASE_PORT: string;
 
+      DATABASE_HOST_LIS: string;
+      DATABASE_USER_LIS: string;
+      DATABASE_PASSWORD_LIS: string;
+      DATABASE_NAME_LIS: string;
+      DATABASE_PORT_LIS: string;
+
       DATABASE_CORE: string;
       DATABASE_SIMJAPEL: string;
       DATABASE_SIMRS: string;

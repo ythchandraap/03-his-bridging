@@ -6,7 +6,7 @@ export const GetMedicalStaffDto = async (headers: any, connection: any) => {
   const encrypt = cipher(process.env.SALT);
   const decrypt = decipher(process.env.SALT);
 
-  if (!headers || !headers.payload) {
+  if (!headers?.payload) {
     throw new HttpException(
       "Your transaction can't processed",
       HttpStatus.UNPROCESSABLE_ENTITY,
@@ -55,7 +55,6 @@ export const GetMedicalStaffDto = async (headers: any, connection: any) => {
   }
 
   if (pageSize && typeof pageSize == 'number' && pageSize == 0) {
-    ``;
     where = where + ' order by cms.company_medical_staff_name ASC';
   } else {
     where =
@@ -66,7 +65,7 @@ export const GetMedicalStaffDto = async (headers: any, connection: any) => {
       SELECT
         count(cms.company_medical_staff_id) as totalData
       FROM ${process.env.DATABASE_CORE}.company_medical_staff cms
-        JOIN ${process.env.DATABASE_CORE}.company_medical_staff_schedule cmss 
+        JOIN ${process.env.DATABASE_CORE}.company_medical_staff_schedule cmss
           ON cms.company_medical_staff_id = cmss.company_medical_staff_id
       ${where_all}
       `,
@@ -77,7 +76,7 @@ export const GetMedicalStaffDto = async (headers: any, connection: any) => {
       SELECT
         *
       FROM ${process.env.DATABASE_CORE}.company_medical_staff cms
-        JOIN ${process.env.DATABASE_CORE}.company_medical_staff_schedule cmss 
+        JOIN ${process.env.DATABASE_CORE}.company_medical_staff_schedule cmss
           ON cms.company_medical_staff_id = cmss.company_medical_staff_id
       ${where}
       `,

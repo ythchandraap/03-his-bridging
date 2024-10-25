@@ -45,7 +45,7 @@ export class AuthenticationService {
       [enterUsername.username],
     );
 
-    if (!checkUsers || !checkUsers?.username || !checkUsers?.password) {
+    if (!checkUsers?.username || !checkUsers?.password) {
       await this.connection.query('ROLLBACK');
       throw new HttpException(
         'Oops! Wrong data or ur input not match with our record',
