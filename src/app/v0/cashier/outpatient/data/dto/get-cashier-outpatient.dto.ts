@@ -1,11 +1,10 @@
-import { HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common';
 import * as dayjs from 'dayjs';
 import { decryptor, encryptor } from 'utility/aes';
 import CheckCompanyProfile from 'utility/check-company-profile';
-import { cipher, decipher } from 'utility/encryption';
+import { decipher } from 'utility/encryption';
 
 export const GetCashierOutpatient = async (headers: any, connection: any) => {
-  const encrypt = cipher(process.env.SALT);
   const decrypt = decipher(process.env.SALT);
 
   if (!headers?.payload) {
@@ -57,26 +56,19 @@ export const GetCashierOutpatient = async (headers: any, connection: any) => {
   let where_all = 'WHERE 1';
 
   if (search && typeof search == 'string') {
-    where =
-      where + ` AND (p.id LIKE "%${search}%" OR p.name LIKE "%${search}%")`;
-    where_all =
-      where_all + ` AND (p.id LIKE "%${search}%" OR p.name LIKE "%${search}%")`;
+    where += ` AND (p.id LIKE "%${search}%" OR p.name LIKE "%${search}%")`;
+    where_all += ` AND (p.id LIKE "%${search}%" OR p.name LIKE "%${search}%")`;
   }
 
   if (act != 'all') {
-    where = where + ` AND DATE(v.date) BETWEEN "${dateStart}" AND "${dateEnd}"`;
-    where_all =
-      where_all + ` AND DATE(v.date) BETWEEN "${dateStart}" AND "${dateEnd}"`;
+    where += ` AND DATE(v.date) BETWEEN "${dateStart}" AND "${dateEnd}"`;
+    where_all += ` AND DATE(v.date) BETWEEN "${dateStart}" AND "${dateEnd}"`;
   }
 
   if (pageSize && typeof pageSize == 'number' && pageSize == 0) {
-    where =
-      where +
-      `GROUP BY v.id ORDER BY v.queue_number_prefix ASC, v.queue_number ASC`;
+    where += `GROUP BY v.id ORDER BY v.queue_number_prefix ASC, v.queue_number ASC`;
   } else {
-    where =
-      where +
-      `GROUP BY v.id ORDER BY v.queue_number_prefix ASC, v.queue_number ASC limit ${pageSize}`;
+    where += `GROUP BY v.id ORDER BY v.queue_number_prefix ASC, v.queue_number ASC limit ${pageSize}`;
   }
 
   const [getData] = await connection.query(

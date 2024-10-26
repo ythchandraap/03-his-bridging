@@ -1,7 +1,7 @@
-import { HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common';
 import { decryptor, encryptor } from 'utility/aes';
 import CheckCompanyProfile from 'utility/check-company-profile';
-import { cipher, decipher } from 'utility/encryption';
+import { decipher } from 'utility/encryption';
 
 export const SwitcherClinic = async (
   headers: any,
@@ -89,7 +89,7 @@ export const SwitcherClinic = async (
 
   try {
     await connection.query(`START TRANSACTION`);
-    const [turnOffData] = await connection.query(
+    await connection.query(
       `
         UPDATE ${process.env.DATABASE_CORE}.company_units
         SET is_active = ?

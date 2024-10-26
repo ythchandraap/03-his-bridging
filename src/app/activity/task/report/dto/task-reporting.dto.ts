@@ -24,9 +24,10 @@ export const TaskReporting = async (
 
       const number: string | RegExpMatchArray = fileName?.match(/_1\.\w+$/);
       const beforeCharacter: string | RegExpMatchArray =
-        fileName.match(/^(.*)(?=\.[^\.]*$)/);
-      const afterCharacter: string | RegExpMatchArray =
-        fileName.match(/\.([^.]*)$/);
+        /^(.*)(?=\.[^\.]*$)/.exec(fileName);
+      const afterCharacter: string | RegExpMatchArray = /\.([^.]*)$/.exec(
+        fileName,
+      );
       const newFilename: string | RegExpMatchArray = number;
       let newIndex: string | RegExpMatchArray;
       let tempFileName;

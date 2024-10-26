@@ -38,27 +38,24 @@ export const GetMedicalStaffDto = async (headers: any, connection: any) => {
     'WHERE cms.company_profile_id = ' + decryptedMedicalFacility + ' ';
 
   if (clinic_name && typeof clinic_name == 'string') {
-    where =
-      where + ` AND cms.company_medical_staff_name like '%${clinic_name}%'`;
-    where_all =
-      where_all + ` AND cms.company_medical_staff_name like '%${clinic_name}%'`;
+    where += ` AND cms.company_medical_staff_name like '%${clinic_name}%'`;
+    where_all += ` AND cms.company_medical_staff_name like '%${clinic_name}%'`;
   }
 
   if (!act || act != 'all') {
-    where = where + ` AND cmss.is_active = 1`;
-    where_all = where_all + ` AND cmss.is_active = 1`;
+    where += ` AND cmss.is_active = 1`;
+    where_all += ` AND cmss.is_active = 1`;
   }
 
   if (headers?.grp != 'id') {
-    where = where + ` group by cms.company_medical_staff_id`;
-    where_all = where_all + ` group by cms.company_medical_staff_id`;
+    where += ` group by cms.company_medical_staff_id`;
+    where_all += ` group by cms.company_medical_staff_id`;
   }
 
   if (pageSize && typeof pageSize == 'number' && pageSize == 0) {
-    where = where + ' order by cms.company_medical_staff_name ASC';
+    where += ' order by cms.company_medical_staff_name ASC';
   } else {
-    where =
-      where + ` order by cms.company_medical_staff_name ASC limit ${pageSize}`;
+    where += ` order by cms.company_medical_staff_name ASC limit ${pageSize}`;
   }
   const getAllData = await connection.query(
     `

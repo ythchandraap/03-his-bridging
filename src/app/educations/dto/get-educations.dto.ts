@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common';
 import { decryptor, encryptor } from 'utility/aes';
 import CheckCompanyProfile from 'utility/check-company-profile';
 import { cipher, decipher } from 'utility/encryption';
@@ -53,19 +53,19 @@ export const GetEducations = async (headers: any, connection: any) => {
     'WHERE cp.company_profile_id = ' + decryptedMedicalFacility + ' ';
 
   if (search && typeof search == 'string') {
-    where = where + ` AND re.ref_education_name like '%${search}%'`;
-    where_all = where_all + ` AND re.ref_education_name like '%${search}%'`;
+    where += ` AND re.ref_education_name like '%${search}%'`;
+    where_all += ` AND re.ref_education_name like '%${search}%'`;
   }
 
   if (act != 'all') {
-    where = where + ` AND re.is_active = 1`;
-    where_all = where_all + ` AND re.is_active = 1`;
+    where += ` AND re.is_active = 1`;
+    where_all += ` AND re.is_active = 1`;
   }
 
   if (pageSize && typeof pageSize == 'number' && pageSize == 0) {
-    where = where + ' order by re.order DESC';
+    where += ' order by re.order DESC';
   } else {
-    where = where + ` order by re.order DESC limit ${pageSize}`;
+    where += ` order by re.order DESC limit ${pageSize}`;
   }
 
   const [getAllData] = await connection.query(

@@ -43,26 +43,25 @@ export const GetMedicalStaffScheduleDto = async (
     'WHERE cmss.company_profile_id = ' + decryptedMedicalFacility + ' ';
 
   // if (name != '' && name.match(/^\d+$/)) {
-  //   where = where + ` AND cp.medical_record_id = ${parseInt(name)}`;
-  //   where_all = where_all + ` AND cp.medical_record_id = ${parseInt(name)}`;
+  //    where += ` AND cp.medical_record_id = ${parseInt(name)}`;
+  //   where_all += ` AND cp.medical_record_id = ${parseInt(name)}`;
   // } else if (name != '' && !name.match(/^\d+$/)) {
-  //   where = where + ` AND rp.full_name like '%${name}%'`;
-  //   where_all = where_all + ` AND rp.full_name like '%${name}%'`;
+  //    where += ` AND rp.full_name like '%${name}%'`;
+  //   where_all += ` AND rp.full_name like '%${name}%'`;
   // } else {
   //   where = where;
   //   where_all = where_all;
   // }
 
   if (!act || act != 'all') {
-    where = where + ` AND cmss.is_active = 1`;
-    where_all = where_all + ` AND cmss.is_active = 1`;
+    where += ` AND cmss.is_active = 1`;
+    where_all += ` AND cmss.is_active = 1`;
   }
 
   if (pageSize && typeof pageSize == 'number' && pageSize == 0) {
-    where = where + ' order by cmss.company_medical_staff_id ASC';
+    where += ' order by cmss.company_medical_staff_id ASC';
   } else {
-    where =
-      where + ` order by cmss.company_medical_staff_id ASC limit ${pageSize}`;
+    where += ` order by cmss.company_medical_staff_id ASC limit ${pageSize}`;
   }
 
   const getAllData = await connection.query(

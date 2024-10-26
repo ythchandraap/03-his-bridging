@@ -38,19 +38,19 @@ export const GetClinics = async (headers: any, connection: any) => {
     'WHERE cu.company_profile_id = ' + decryptedMedicalFacility + ' ';
 
   if (clinic_name && typeof clinic_name == 'string') {
-    where = where + ` AND company_unit_name like '%${clinic_name}%'`;
-    where_all = where_all + ` AND company_unit_name like '%${clinic_name}%'`;
+    where += ` AND company_unit_name like '%${clinic_name}%'`;
+    where_all += ` AND company_unit_name like '%${clinic_name}%'`;
   }
 
   if (!act || act != 'all') {
-    where = where + ` AND cu.is_active = 1`;
-    where_all = where_all + ` AND cu.is_active = 1`;
+    where += ` AND cu.is_active = 1`;
+    where_all += ` AND cu.is_active = 1`;
   }
 
   if (pageSize && typeof pageSize == 'number' && pageSize == 0) {
-    where = where + ' order by company_unit_name ASC';
+    where += ' order by company_unit_name ASC';
   } else {
-    where = where + ` order by company_unit_name ASC limit ${pageSize}`;
+    where += ` order by company_unit_name ASC limit ${pageSize}`;
   }
 
   const getAllData = await connection.query(

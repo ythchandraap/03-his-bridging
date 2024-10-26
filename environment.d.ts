@@ -7,13 +7,13 @@ declare global {
       DATABASE_USER: string;
       DATABASE_PASSWORD: string;
       DATABASE_NAME: string;
-      DATABASE_PORT: string;
+      DATABASE_PORT: number;
 
       DATABASE_HOST_LIS: string;
       DATABASE_USER_LIS: string;
       DATABASE_PASSWORD_LIS: string;
       DATABASE_NAME_LIS: string;
-      DATABASE_PORT_LIS: string;
+      DATABASE_PORT_LIS: number;
 
       DATABASE_CORE: string;
       DATABASE_SIMJAPEL: string;

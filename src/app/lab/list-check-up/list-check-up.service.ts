@@ -28,15 +28,14 @@ export class ListCheckUpService {
     let where_all = 'WHERE TRUE';
 
     if (patient_name && typeof patient_name == 'string') {
-      where = where + ` AND nama ilike '%${patient_name}%'`;
-      where_all = where_all + ` AND nama ilike '%${patient_name}%'`;
+      where += ` AND nama ilike '%${patient_name}%'`;
+      where_all += ` AND nama ilike '%${patient_name}%'`;
     }
 
     if (pageSize && typeof pageSize == 'number' && pageSize == 0) {
-      ``;
-      where = where + ' order by no_lab DESC';
+      where += ' order by no_lab DESC';
     } else {
-      where = where + ` order by no_lab DESC limit ${pageSize}`;
+      where += ` order by no_lab DESC limit ${pageSize}`;
     }
 
     // if (patient_mr && typeof patient_mr == 'number') {

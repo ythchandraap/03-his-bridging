@@ -46,25 +46,21 @@ export const GetRegistrationViaDto = async (headers: any, connection: any) => {
     'WHERE rrv.company_profile_id = ' + decryptedMedicalFacility + ' ';
 
   if (registrationViaName && typeof registrationViaName == 'string') {
-    where =
-      where +
-      ` AND rrv.ref_registration_via_name like '%${registrationViaName}%'`;
-    where_all =
-      where_all +
-      ` AND rrv.ref_registration_via_name like '%${registrationViaName}%'`;
+    where += ` AND rrv.ref_registration_via_name like '%${registrationViaName}%'`;
+    where_all += ` AND rrv.ref_registration_via_name like '%${registrationViaName}%'`;
   }
 
   if (!act || act != 'all') {
-    where = where + ` AND rrv.is_active = 1`;
-    where_all = where_all + ` AND rrv.is_active = 1`;
+    where += ` AND rrv.is_active = 1`;
+    where_all += ` AND rrv.is_active = 1`;
   }
 
   if (pageSize && typeof pageSize == 'number') {
-    ``;
-    where = where + ' order by rrv.ref_registration_via_name ASC';
+    where += ' order by rrv.ref_registration_via_name ASC';
+
+    where += ' order by rrv.ref_registration_via_name ASC';
   } else {
-    where =
-      where + ` order by rrv.ref_registration_via_name ASC limit ${pageSize}`;
+    where += ` order by rrv.ref_registration_via_name ASC limit ${pageSize}`;
   }
   const getAllData = await connection.query(
     `

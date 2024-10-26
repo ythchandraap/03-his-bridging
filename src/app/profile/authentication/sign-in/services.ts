@@ -8,7 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 export class AuthSignInServices {
   constructor(
     @InjectClient() private readonly connection: Pool,
-    private jwtService: JwtService,
+    private readonly jwtService: JwtService,
     // @Inject('PG_CONNECTION')
     // private readonly connectionPg: any,
   ) {}

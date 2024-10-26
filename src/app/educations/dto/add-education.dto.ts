@@ -1,9 +1,8 @@
-import { HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common';
 import { decryptor, encryptor } from 'utility/aes';
-import { cipher, decipher } from 'utility/encryption';
+import { decipher } from 'utility/encryption';
 
 export const AddEducation = async (headers: any, connection: any) => {
-  const encrypt = cipher(process.env.SALT);
   const decrypt = decipher(process.env.SALT);
 
   if (!headers?.payload) {
@@ -73,7 +72,7 @@ export const AddEducation = async (headers: any, connection: any) => {
   }
   try {
     await connection.query(`START TRANSACTION`);
-    const [insertData] = await connection.query(
+    await connection.query(
       `
         INSERT INTO ${process.env.DATABASE_CORE}.ref_educations(
           ref_education_name,

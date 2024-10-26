@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common';
 import { decryptor, encryptor } from 'utility/aes';
 import CheckCompanyProfile from 'utility/check-company-profile';
 import { decipher } from 'utility/encryption';
@@ -89,7 +89,7 @@ export const PatchClinic = async (headers: any, id: any, connection: any) => {
 
   try {
     await connection.query(`START TRANSACTION`);
-    const [patchData] = await connection.query(
+    await connection.query(
       `
         UPDATE ${process.env.DATABASE_CORE}.company_units
         SET company_unit_name = ?,

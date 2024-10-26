@@ -49,19 +49,19 @@ export const GetStatusDto = async (headers: any, connection: any) => {
     'WHERE rs.company_profile_id = ' + decryptedMedicalFacility + ' ';
 
   if (statusName && typeof statusName == 'string') {
-    where = where + ` AND rs.name_status like '%${statusName}%'`;
-    where_all = where_all + ` AND rs.name_status like '%${statusName}%'`;
+    where += ` AND rs.name_status like '%${statusName}%'`;
+    where_all += ` AND rs.name_status like '%${statusName}%'`;
   }
 
   if (!dataAccepted.act || dataAccepted.act != 'all') {
-    where = where + ` AND rs.is_active = 1`;
-    where_all = where_all + ` AND rs.is_active = 1`;
+    where += ` AND rs.is_active = 1`;
+    where_all += ` AND rs.is_active = 1`;
   }
 
   if (pageSize && typeof pageSize == 'number' && pageSize == 0) {
-    where = where + ' order by rs.order ASC';
+    where += ' order by rs.order ASC';
   } else {
-    where = where + ` order by rs.order ASC limit ${pageSize}`;
+    where += ` order by rs.order ASC limit ${pageSize}`;
   }
 
   const getAllData = await connection.query(

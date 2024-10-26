@@ -38,23 +38,19 @@ export const GetPaymentsMethodDto = async (headers: any, connection: any) => {
     'WHERE rpm.company_profile_id = ' + decryptedMedicalFacility + ' ';
 
   if (paymentMethodName && typeof paymentMethodName == 'string') {
-    where =
-      where + ` AND rpm.ref_payment_method_name like '%${paymentMethodName}%'`;
-    where_all =
-      where_all +
-      ` AND rpm.ref_payment_method_name like '%${paymentMethodName}%'`;
+    where += ` AND rpm.ref_payment_method_name like '%${paymentMethodName}%'`;
+    where_all += ` AND rpm.ref_payment_method_name like '%${paymentMethodName}%'`;
   }
 
   if (!act || act != 'all') {
-    where = where + ` AND rpm.is_active = 1`;
-    where_all = where_all + ` AND rpm.is_active = 1`;
+    where += ` AND rpm.is_active = 1`;
+    where_all += ` AND rpm.is_active = 1`;
   }
 
   if (pageSize && typeof pageSize == 'number' && pageSize == 0) {
-    where = where + ' order by rpm.ref_payment_method_name ASC';
+    where += ' order by rpm.ref_payment_method_name ASC';
   } else {
-    where =
-      where + ` order by rpm.ref_payment_method_name ASC limit ${pageSize}`;
+    where += ` order by rpm.ref_payment_method_name ASC limit ${pageSize}`;
   }
   const getAllData = await connection.query(
     `

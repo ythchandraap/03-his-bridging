@@ -12,6 +12,7 @@ import { HISModule } from './app/his/his.module';
 import { ReportModule } from './app/report/report.module';
 import { MigrationModule } from './app/migration/migration.module';
 import { ActivityModule } from './app/activity/activity.module';
+import { WalletModule } from './app/v0.0/wallet/wallet.module';
 
 @Module({
   imports: [
@@ -27,12 +28,13 @@ import { ActivityModule } from './app/activity/activity.module';
         database: process.env.DATABASE_NAME,
         password: process.env.DATABASE_PASSWORD,
         user: process.env.DATABASE_USER,
-        port: parseInt(process.env.DATABASE_PORT),
+        port: process.env.DATABASE_PORT,
       }),
     }),
     DbModule,
     ProfileModule,
     TestModule,
+    WalletModule,
   ],
   controllers: [AppController],
   providers: [AppService, NotificationsGateway],
