@@ -12,7 +12,7 @@ export async function enterUsername(
   request: any,
   response: any,
 ) {
-  if (!enterUsername || !enterUsername.username) {
+  if (!enterUsername?.username) {
     throw new HttpException(
       'Maybe your data not completed',
       HttpStatus.UNPROCESSABLE_ENTITY,

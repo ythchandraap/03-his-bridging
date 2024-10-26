@@ -27,7 +27,7 @@ async function checkAuth(connection: Connection, req: Request) {
 
   console.log(checkSessionExist);
 
-  if (!checkSessionExist || !checkSessionExist.username) {
+  if (!checkSessionExist?.username) {
     return { code: 401, message: 'relogin' };
   }
 

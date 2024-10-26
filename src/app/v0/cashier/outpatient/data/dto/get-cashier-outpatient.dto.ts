@@ -53,16 +53,13 @@ export const GetCashierOutpatient = async (headers: any, connection: any) => {
   let pagePosition: number;
 
   let where = 'WHERE 1';
-  let where_all = 'WHERE 1';
 
   if (search && typeof search == 'string') {
     where += ` AND (p.id LIKE "%${search}%" OR p.name LIKE "%${search}%")`;
-    where_all += ` AND (p.id LIKE "%${search}%" OR p.name LIKE "%${search}%")`;
   }
 
   if (act != 'all') {
     where += ` AND DATE(v.date) BETWEEN "${dateStart}" AND "${dateEnd}"`;
-    where_all += ` AND DATE(v.date) BETWEEN "${dateStart}" AND "${dateEnd}"`;
   }
 
   if (pageSize && typeof pageSize == 'number' && pageSize == 0) {

@@ -43,9 +43,6 @@ export const GetMedicalRecord = async (headers: any, connection: any) => {
   } else if (name != '' && !name.match(/^\d+$/)) {
     where += ` AND rp.full_name like '%${name}%'`;
     where_all += ` AND rp.full_name like '%${name}%'`;
-  } else {
-    where = where;
-    where_all = where_all;
   }
 
   // if (!act || act != 'all') {

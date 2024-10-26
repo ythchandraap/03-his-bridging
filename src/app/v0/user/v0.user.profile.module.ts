@@ -1,6 +1,5 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { DbModule } from 'src/db/db.module';
-import { checkAuthMiddleware } from 'src/middleware/check-auth.middleware';
 import { V0UserProfileServices } from './profile/v0.user.profile.service';
 import { V0UserProfileController } from './profile/v0.user.profile.controller';
 import { V0UserSignInModule } from './sign-in/module';

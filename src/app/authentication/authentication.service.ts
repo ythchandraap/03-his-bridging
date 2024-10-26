@@ -16,18 +16,13 @@ export class AuthenticationService {
     request: any,
     response: any,
   ) {
-    if (!enterUsername || !enterUsername.username) {
+    if (!enterUsername?.username) {
       throw new HttpException(
         'Maybe your data not completed',
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
-    if (
-      !headers ||
-      !headers.signature ||
-      !headers.payload ||
-      !headers.approach
-    ) {
+    if (!headers.signature || !headers.payload || !headers.approach) {
       throw new HttpException(
         'Maybe your data not completed',
         HttpStatus.PRECONDITION_FAILED,

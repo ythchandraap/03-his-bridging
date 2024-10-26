@@ -22,7 +22,7 @@ export const TaskReporting = async (
     function addNewFilename(fileName: string) {
       // find index with regex match number
 
-      const number: string | RegExpMatchArray = fileName?.match(/_1\.\w+$/);
+      const number: string | RegExpMatchArray = /_1\.\w+$/.exec(fileName);
       const beforeCharacter: string | RegExpMatchArray =
         /^(.*)(?=\.[^\.]*$)/.exec(fileName);
       const afterCharacter: string | RegExpMatchArray = /\.([^.]*)$/.exec(
