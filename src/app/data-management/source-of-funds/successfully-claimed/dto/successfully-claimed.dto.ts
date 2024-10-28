@@ -66,11 +66,7 @@ export const SuccessfullyClaimedDto = async (
 
   const notYetPaid = getAllData.reduce(
     (res, value) =>
-      value.status != 'PROSES BAYAR'
-        ? value.status != 'LUNAS'
-          ? res + 1
-          : res
-        : res,
+      value.status != 'PROSES BAYAR' && value.status != 'LUNAS' ? res + 1 : res,
     0,
   );
 

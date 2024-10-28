@@ -1,21 +1,13 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 
-export const editWalletDto = async (
+export const turnOffWalletDto = async (
   headers: any,
   body: any,
   connection: any,
 ) => {
-  let { name } = body;
-  const { force, uuid } = body;
+  const { force } = body;
+  const { uuid } = headers;
   const company: number = 1;
-
-  if (!name)
-    throw new HttpException(
-      "Your transaction can't processed",
-      HttpStatus.UNPROCESSABLE_ENTITY,
-    );
-
-  name = name.toLowerCase();
 
   const [checkExist] = await connection.query(
     `
@@ -33,50 +25,37 @@ export const editWalletDto = async (
   if (checkExist.length == 0)
     throw new HttpException('Your data not exist', HttpStatus.NOT_FOUND);
 
+  if (checkExist?.[0].is_active == '0')
+    throw new HttpException('No action, your data is inactive', HttpStatus.OK);
+
   await connection.query(`START TRANSACTION`);
+  const nominal: number = parseFloat(checkExist?.[0].t_wallet_nominal ?? 0);
 
-  const [checkValue] = await connection.query(
-    `
-      SELECT
-        *
-      FROM
-        t_wallets tw
-      WHERE
-        tw.company_profile_id = ?
-        AND tw.t_wallet_name = ?
-        AND t_wallet_uuid NOT IN (?)
-    `,
-    [company, name, uuid],
-  );
-
-  if (force && checkValue.length > 0) {
+  if (force && nominal > 0) {
     const [insert] = await connection.query(
       `
       UPDATE t_wallets
       SET
-        t_wallet_name = ?
+        is_active = ?
       WHERE
         t_wallet_uuid = ?
     `,
-      [name, uuid],
+      ['0', uuid],
     );
 
     if (insert.affectedRows) {
       await connection.query(`COMMIT`);
-      return {
-        status: HttpStatus.OK,
-        message: 'Your data has change',
-      };
+      throw new HttpException('Your wallet is inactive', HttpStatus.OK);
     } else {
       await connection.query(`ROLLBACK`);
       throw new HttpException(
-        'Data not inserted, something error!',
+        'Data not changed, something error!',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }
 
-  if (!force && checkValue.length > 0) {
+  if (!force && nominal > 0) {
     await connection.query(`ROLLBACK`);
     throw new HttpException('You sure to continue', HttpStatus.CONFLICT);
   }
@@ -84,23 +63,20 @@ export const editWalletDto = async (
     `
       UPDATE t_wallets
       SET
-        t_wallet_name = ?
+        is_active = ?
       WHERE
         t_wallet_uuid = ?
     `,
-    [name, uuid],
+    ['0', uuid],
   );
 
   if (insert.affectedRows) {
     await connection.query(`COMMIT`);
-    return {
-      statusCode: HttpStatus.OK,
-      message: 'Your data has change',
-    };
+    throw new HttpException('Your wallet is inactive', HttpStatus.OK);
   } else {
     await connection.query(`ROLLBACK`);
     throw new HttpException(
-      'Data not inserted, something error!',
+      'Data not changed, something error!',
       HttpStatus.INTERNAL_SERVER_ERROR,
     );
   }

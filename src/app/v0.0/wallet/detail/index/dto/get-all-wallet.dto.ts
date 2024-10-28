@@ -42,6 +42,7 @@ export const getAllWallet = async (headers: any, connection: any) => {
 
   if (getData.length < 1) {
     return {
+      statusCode: HttpStatus.OK,
       message: 'Horayyy, you can access app now',
       data: [],
       summary: {
@@ -59,6 +60,7 @@ export const getAllWallet = async (headers: any, connection: any) => {
   pagePosition = parseInt(getAllData.total) / size;
 
   return {
+    statusCode: HttpStatus.OK,
     message: 'Horayyy, you can access app now',
     data: getData ?? [],
     summary: {

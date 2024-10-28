@@ -4,6 +4,8 @@ import { Pool } from 'mysql2';
 import { createWalletDto } from './dto/create-wallet.dto';
 import { editWalletDto } from './dto/edit-wallet.dto';
 import { getAllWallet } from './dto/get-all-wallet.dto';
+import { getWallet } from './dto/get-wallet.dto';
+import { turnOffWalletDto } from './dto/turn-off-wallet.dto';
 
 @Injectable()
 export class WalletDetailServices {
@@ -13,8 +15,11 @@ export class WalletDetailServices {
     // private readonly connectionPg: any,
   ) {}
 
-  async getAllData(headers: any) {
+  async getAllWallet(headers: any) {
     return await getAllWallet(headers, this.connection);
+  }
+  async getWallet(headers: any) {
+    return await getWallet(headers, this.connection);
   }
 
   async createWallet(headers: any, body: any) {
@@ -23,5 +28,9 @@ export class WalletDetailServices {
 
   async editWallet(headers: any, body: any) {
     return await editWalletDto(headers, body, this.connection);
+  }
+
+  async turnOffWallet(headers: any, body: any) {
+    return await turnOffWalletDto(headers, body, this.connection);
   }
 }

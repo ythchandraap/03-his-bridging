@@ -82,7 +82,7 @@ export const createWalletDto = async (
   if (insert.insertId) {
     await connection.query(`COMMIT`);
     return {
-      status: HttpStatus.OK,
+      statusCode: HttpStatus.OK,
       message: 'Your data inserted',
     };
   } else {

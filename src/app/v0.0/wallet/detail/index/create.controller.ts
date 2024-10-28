@@ -21,7 +21,19 @@ export class WalletDetailController {
     @Headers() headers: any,
     // @Res({ passthrough: true }) response: Response,
   ) {
-    return await this.WalletDetailService.getAllData(headers);
+    return await this.WalletDetailService.getAllWallet(headers);
+  }
+
+  @Get(':uuid')
+  @HttpCode(HttpStatus.OK)
+  async getWallet(
+    @Headers() headers: any,
+    @Body() body: any,
+    @Param('uuid') uuid: string,
+    // @Res({ passthrough: true }) response: Response,
+  ) {
+    const combine = { ...headers, uuid };
+    return await this.WalletDetailService.getWallet(combine);
   }
 
   @Post()
@@ -44,5 +56,17 @@ export class WalletDetailController {
   ) {
     const combine = { ...body, uuid };
     return await this.WalletDetailService.editWallet(headers, combine);
+  }
+
+  @Patch(':uuid/off')
+  @HttpCode(HttpStatus.OK)
+  async turnOff(
+    @Headers() headers: any,
+    @Body() body: any,
+    @Param('uuid') uuid: string,
+    // @Res({ passthrough: true }) response: Response,
+  ) {
+    const combine = { ...headers, uuid };
+    return await this.WalletDetailService.turnOffWallet(combine, body);
   }
 }

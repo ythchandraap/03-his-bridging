@@ -55,7 +55,7 @@ export class AuthenticationService {
     const encryptionCodeDoubleHash = encrypt2nd(String(headers.payload));
     const sessionCodeDoubleHash = hashing(encryptionCodeDoubleHash);
 
-    if (!(hashSignature == checkUsers.password)) {
+    if (hashSignature != checkUsers.password) {
       await this.connection.query('ROLLBACK');
       throw new HttpException(
         'Oops! Wrong data or ur input not match with our record',
