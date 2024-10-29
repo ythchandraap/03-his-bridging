@@ -1,9 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { V0AttributeStatusServices } from './v0.attribute.status.service';
-
 describe('RecipeService', () => {
-  let service: V0AttributeStatusServices;
-
   // beforeEach(async () => {
   //   const module: TestingModule = await Test.createTestingModule({
   //     providers: [V0AttributeStatusServices],

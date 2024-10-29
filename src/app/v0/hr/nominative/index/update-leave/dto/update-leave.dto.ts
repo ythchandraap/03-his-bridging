@@ -12,7 +12,7 @@ export const UpdateLeave = async (
     const decryptorSimjapel = decipher(process.env.SALT_SIMJAPEL);
     const encryptorSimjapel = cipher(process.env.SALT_SIMJAPEL);
 
-    if (!(headers.payload == 'post')) {
+    if (headers.payload != 'post') {
       throw new HttpException(
         "Your transaction can't processed",
         HttpStatus.UNPROCESSABLE_ENTITY,

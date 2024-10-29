@@ -6,6 +6,7 @@ import { editWalletDto } from './dto/edit-wallet.dto';
 import { getAllWallet } from './dto/get-all-wallet.dto';
 import { getWallet } from './dto/get-wallet.dto';
 import { turnOffWalletDto } from './dto/turn-off-wallet.dto';
+import { turnOnWalletDto } from './dto/turn-on-wallet.dto';
 
 @Injectable()
 export class WalletDetailServices {
@@ -32,5 +33,9 @@ export class WalletDetailServices {
 
   async turnOffWallet(headers: any, body: any) {
     return await turnOffWalletDto(headers, body, this.connection);
+  }
+
+  async turnOnWallet(headers: any, body: any) {
+    return await turnOnWalletDto(headers, body, this.connection);
   }
 }

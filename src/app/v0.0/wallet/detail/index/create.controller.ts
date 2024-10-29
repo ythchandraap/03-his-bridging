@@ -54,8 +54,8 @@ export class WalletDetailController {
     @Param('uuid') uuid: string,
     // @Res({ passthrough: true }) response: Response,
   ) {
-    const combine = { ...body, uuid };
-    return await this.WalletDetailService.editWallet(headers, combine);
+    const combine = { ...headers, uuid };
+    return await this.WalletDetailService.editWallet(combine, body);
   }
 
   @Patch(':uuid/off')
@@ -68,5 +68,17 @@ export class WalletDetailController {
   ) {
     const combine = { ...headers, uuid };
     return await this.WalletDetailService.turnOffWallet(combine, body);
+  }
+
+  @Patch(':uuid/on')
+  @HttpCode(HttpStatus.OK)
+  async turnOn(
+    @Headers() headers: any,
+    @Body() body: any,
+    @Param('uuid') uuid: string,
+    // @Res({ passthrough: true }) response: Response,
+  ) {
+    const combine = { ...headers, uuid };
+    return await this.WalletDetailService.turnOnWallet(combine, body);
   }
 }

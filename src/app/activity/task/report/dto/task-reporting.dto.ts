@@ -24,7 +24,7 @@ export const TaskReporting = async (
 
       const number: string | RegExpMatchArray = /_1\.\w+$/.exec(fileName);
       const beforeCharacter: string | RegExpMatchArray =
-        /^(.*)(?=\.[^\.]*$)/.exec(fileName);
+        /^(.*)(?=\.[^.]*$)/.exec(fileName);
       const afterCharacter: string | RegExpMatchArray = /\.([^.]*)$/.exec(
         fileName,
       );
