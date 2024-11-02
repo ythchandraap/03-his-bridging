@@ -5,23 +5,11 @@ import { NotificationsGateway } from './socket.io/notifications/notifications.ga
 import { MysqlModule } from 'nest-mysql';
 import { ConfigModule } from '@nestjs/config';
 import { DbModule } from './db/db.module';
-import { V0Module } from './app/v0/v0.module';
-import { ProfileModule } from './app/profile/profile.module';
-import { TestModule } from './app/test/test.module';
-import { HISModule } from './app/his/his.module';
-import { ReportModule } from './app/report/report.module';
-import { MigrationModule } from './app/migration/migration.module';
-import { ActivityModule } from './app/activity/activity.module';
 import { WalletModule } from './app/v0.0/wallet/wallet.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    V0Module,
-    HISModule,
-    ReportModule,
-    MigrationModule,
-    ActivityModule,
     MysqlModule.forRootAsync({
       useFactory: () => ({
         host: process.env.DATABASE_HOST,
@@ -32,8 +20,6 @@ import { WalletModule } from './app/v0.0/wallet/wallet.module';
       }),
     }),
     DbModule,
-    ProfileModule,
-    TestModule,
     WalletModule,
   ],
   controllers: [AppController],
