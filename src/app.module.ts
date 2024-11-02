@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { NotificationsGateway } from './socket.io/notifications/notifications.gateway';
 import { MysqlModule } from 'nest-mysql';
 import { ConfigModule } from '@nestjs/config';
-import { DbModule } from './db/db.module';
 import { WalletModule } from './app/v0.0/wallet/wallet.module';
 
 @Module({
@@ -19,10 +17,9 @@ import { WalletModule } from './app/v0.0/wallet/wallet.module';
         port: process.env.DATABASE_PORT,
       }),
     }),
-    DbModule,
     WalletModule,
   ],
   controllers: [AppController],
-  providers: [AppService, NotificationsGateway],
+  providers: [AppService],
 })
 export class AppModule {}
