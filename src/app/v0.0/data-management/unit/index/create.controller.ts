@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { WalletDetailServices } from './create.service';
 
-@Controller('apps-internal/v0.0/wallet/detail')
+@Controller('apps-internal/v0.0/cashier/visits')
 export class WalletDetailController {
   constructor(private readonly WalletDetailService: WalletDetailServices) {}
 
@@ -21,7 +21,7 @@ export class WalletDetailController {
     @Headers() headers: any,
     // @Res({ passthrough: true }) response: Response,
   ) {
-    return await this.WalletDetailService.getAllWallet(headers);
+    return await this.WalletDetailService.getAllVisits(headers);
   }
 
   @Get(':uuid')
