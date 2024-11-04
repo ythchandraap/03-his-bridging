@@ -1,11 +1,16 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 
-export const getAllWallet = async (headers: any, connection: any) => {
+export const getVisitsMerged = async (headers: any, connection: any) => {
   let { size = '10', position = '1' } = headers;
-  const { search } = headers;
-  const company: number = 1;
+  const { search = '', visit_id, receipt_id } = headers;
 
-  if (!position || parseInt(position) < 1 || !size) {
+  if (
+    !position ||
+    parseInt(position) < 1 ||
+    !size ||
+    !visit_id ||
+    !receipt_id
+  ) {
     throw new HttpException(
       "Your transaction can't processed",
       HttpStatus.UNPROCESSABLE_ENTITY,
@@ -17,27 +22,32 @@ export const getAllWallet = async (headers: any, connection: any) => {
 
   let pagePosition: number = 0;
 
-  let where = `WHERE company_profile_id = ${company} `;
-
-  if (search) {
-    where += ` AND t_wallet_name like '%${search}%'`;
-  }
-
   const [getData] = await connection.query(
     `
       SELECT
         SQL_CALC_FOUND_ROWS
-     	  t_wallet_uuid,
-        t_wallet_name,
-        t_wallet_nominal,
-        is_active
-      FROM
-        t_wallets
-      ${where}
+        v.id AS visit_id,
+        p.id AS patient_id,
+        p.name,
+        v.date,
+        v.clinic_id,
+        rc.name clinic_name,
+        vic.inpatient_clinic_id,
+        ric.name,
+        vi.exit_date
+      FROM visits v
+        JOIN patients p ON (p.id=v.patient_id)
+        LEFT JOIN visits_inpatient vi ON v.id = vi.visit_id
+        LEFT JOIN ref_clinics rc ON rc.id = v.clinic_id
+        LEFT JOIN visits_inpatient_clinic vic ON vic.visit_inpatient_id = vi.id
+        LEFT JOIN ref_inpatient_clinics ric ON ric.id = vic.inpatient_clinic_id
+      WHERE v.id<>? AND v.kwitansi_id=?
+      ORDER BY v.id
       LIMIT ? OFFSET ?
       `,
-    [size, size * (position - 1)],
+    [visit_id, receipt_id, size, size * (position - 1)],
   );
+
   const [[getAllData]] = await connection.query(`SELECT FOUND_ROWS() as total`);
 
   if (getData.length < 1) {

@@ -3,7 +3,7 @@ import { InjectClient } from 'nest-mysql';
 import { Pool } from 'mysql2';
 import { createWalletDto } from './dto/create-wallet.dto';
 import { editWalletDto } from './dto/edit-wallet.dto';
-import { getAllWallet } from './dto/get-all-wallet.dto';
+import { getAllVisits } from './dto/get-all-visits.dto';
 import { getWallet } from './dto/get-wallet.dto';
 import { turnOffWalletDto } from './dto/turn-off-wallet.dto';
 import { turnOnWalletDto } from './dto/turn-on-wallet.dto';
@@ -16,8 +16,8 @@ export class WalletDetailServices {
     // private readonly connectionPg: any,
   ) {}
 
-  async getAllWallet(headers: any) {
-    return await getAllWallet(headers, this.connection);
+  async getAllVisits(headers: any) {
+    return await getAllVisits(headers, this.connection);
   }
   async getWallet(headers: any) {
     return await getWallet(headers, this.connection);
